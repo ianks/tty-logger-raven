@@ -6,11 +6,7 @@ module TTY
   class Logger
     module Handlers
       RSpec.describe Raven do
-        let(:logger) do
-          TTY::Logger.new do |c|
-            c.handlers = [[:raven, {}]]
-          end
-        end
+        let(:logger) { TTY::Logger.new { |c| c.handlers = [[:raven, {}]] } }
 
         it 'adds breadcrumbs with the event fields' do
           logger.info('Hello', foo: :bar)
