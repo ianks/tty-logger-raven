@@ -1,8 +1,6 @@
-# Tty::Logger::Raven
+# tty-logger-raven 
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/tty/logger/raven`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A [tty-logger](https://www.rubydoc.info/gems/tty-logger) extension for Sentry.io.
 
 ## Installation
 
@@ -22,7 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use the Raven handler:
+
+```ruby
+require 'tty-logger-raven'
+
+TTY::Logger.new do |c|
+  c.handlers = [[:raven, {}]]
+end
+```
 
 ## Development
 

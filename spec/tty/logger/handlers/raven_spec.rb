@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'tty/logger/handlers/raven'
 
 module TTY
@@ -6,7 +8,7 @@ module TTY
       RSpec.describe Raven do
         let(:logger) do
           TTY::Logger.new do |c|
-            c.handlers = [[TTY::Logger::Handlers::Raven, {}]]
+            c.handlers = [[:raven, {}]]
           end
         end
 
@@ -37,7 +39,7 @@ module TTY
         it 'adds breadcrumbs with the mapped filename' do
           begin
             raise 'oh no'
-          rescue => e
+          rescue StandardError => e
             logger.error(e)
           end
 
