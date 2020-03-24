@@ -5,12 +5,38 @@ on:
     tags:
       - v*
 jobs:
-  build-test-lint:
+  deploy-to-rubygems:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: "cadwallion/publish-rubygems-action@master"
+      - name: Set up Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.x
+      - name: Build
+        run: |
+          gem install bundler
+          bundle install --without=local --jobs 4 --retry 3
+      - name: Deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
-          RELEASE_COMMAND: bin/rake release
+        run: |
+          echo "Setting up gem credentials..."
+          set +x
+          mkdir -p ~/.gem
+
+          cat << EOF > ~/.gem/credentials
+          ---
+          :github: Bearer ${GITHUB_TOKEN}
+          :rubygems_api_key: ${RUBYGEMS_API_KEY}
+          EOF
+
+          chmod 0600 ~/.gem/credentials
+          set -x
+
+          echo "Installing dependencies..."
+          bundle install > /dev/null 2>&1
+
+          echo "Running gem release task..."
+          bundle exec rake release
