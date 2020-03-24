@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = 'tty-logger-raven'
-  spec.version = '0.3'
+  spec.version = '0.3.1'
   spec.authors = ['Ian Ker-Seymer']
   spec.email = %w[ian.kerseymer@tryadhawk.com]
 
