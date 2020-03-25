@@ -8,10 +8,13 @@ module TTY
       class Raven
         include Base
 
-        attr_reader :config
+        attr_reader :config, :level
 
-        def initialize(config = {})
+        def initialize(
+          output: $stderr, formatter: nil, config: nil, level: nil, styles: {}
+        )
           @config = config
+          @level = level || @config.level
           @mutex = Mutex.new
         end
 
